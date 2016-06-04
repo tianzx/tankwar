@@ -20,16 +20,16 @@ public class Tank {
         this.y = y;
     }
 
-    private enum Direction {
+    public enum Direction {
         L, LU, U, RU, R, RD, D, LD, STOP
     }
 
     ;
-    private Direction direction = Direction.STOP;
+    public Direction direction = Direction.STOP;
 
     public void draw(Graphics g) {
         Color c = g.getColor();
-        g.setColor(Color.red);
+        g.setColor(Color.BLACK);
         g.fillOval(x, y, 30, 30);
         g.setColor(c);
         System.err.println("painting..............");
