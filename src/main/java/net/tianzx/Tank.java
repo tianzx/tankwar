@@ -10,6 +10,8 @@ public class Tank {
 
     public static final int XSPEED = 5;
     public static final int YSPEED = 5;
+    public static final int WIDTH = 30;
+    public static final int HEIGHT= 30;
 
     TankClient tankClient;
 
@@ -37,7 +39,7 @@ public class Tank {
     public void draw(Graphics g) {
         Color c = g.getColor();
         g.setColor(Color.BLACK);
-        g.fillOval(x, y, 30, 30);
+        g.fillOval(x, y, WIDTH, HEIGHT);
         g.setColor(c);
         System.err.println("painting..............");
         move();
@@ -133,6 +135,9 @@ public class Tank {
     }
 
     public Missile fire() {
+        int x = this.x + WIDTH/2 - Missile.WIDTH/2;
+        int y = this.y + HEIGHT/2 - Missile.HEIGHT/2;
+
         Missile missile = new Missile(x, y, direction);
         return missile;
     }
