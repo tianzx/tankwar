@@ -11,9 +11,16 @@ public class Tank {
     public static final int XSPEED = 5;
     public static final int YSPEED = 5;
 
+    TankClient tankClient;
+
     private int x, y;
 
     private boolean bL = false, bU = false, bR = false, bD = false;
+
+    public Tank(int x, int y, TankClient tc) {
+        this(x, y);
+        this.tankClient = tc;
+    }
 
     public Tank(int x, int y) {
         this.x = x;
@@ -74,6 +81,9 @@ public class Tank {
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
         switch (key) {
+            case KeyEvent.VK_CONTROL:
+                tankClient.missile = fire();
+                break;
             case KeyEvent.VK_LEFT:
                 bL = true;
                 break;
@@ -108,6 +118,7 @@ public class Tank {
         }
         locateDirection();
     }
+
     void locateDirection() {
         if (bL && !bU && !bR && !bD) direction = Direction.L;
         else if (bL && bU && !bR && !bD) direction = Direction.LU;
@@ -119,5 +130,10 @@ public class Tank {
         else if (bL && !bU && !bR && bD) direction = Direction.LD;
         else if (!bL && !bU && !bR && !bD) direction = Direction.STOP;
 
+    }
+
+    public Missile fire() {
+        Missile missile = new Missile(x, y, direction);
+        return missile;
     }
 }

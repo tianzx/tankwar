@@ -14,8 +14,8 @@ public class TankClient extends Frame {
     public static final int GAME_WIDTH = 800;
     public static final int GAME_HEIGHT = 600;
 
-    Tank mytank =  new Tank(50,50);
-    Missile missile = new Missile(50,50,Tank.Direction.R);
+    Tank mytank =  new Tank(50,50,this);
+    Missile missile ;
     private Image offScreenImage = null;
 
     public void laughFrame() {
@@ -37,7 +37,9 @@ public class TankClient extends Frame {
     }
 
     public void paint(Graphics g) {
-        missile.draw(g);
+        if(null!=missile){
+            missile.draw(g);
+        }
         mytank.draw(g);
     }
 
