@@ -80,5 +80,11 @@ public class TankClient extends Frame {
             super.keyPressed(e);
             mytank.keyPressed(e);
         }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            super.keyReleased(e);
+            mytank.keyReleased(e);
+        }
     }
 }
