@@ -19,6 +19,7 @@ public class TankClient extends Frame {
 
     public void paint(Graphics g) {
 //        if (m != null)
+        g.drawString("missiles count :"+missileList.size(),10,50);
         for (int i=0;i<missileList.size();i++){
             Missile missile = missileList.get(i);
             missile.draw(g);
