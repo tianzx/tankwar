@@ -1,19 +1,28 @@
 package net.tianzx;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.*;
 
 public class TankClient extends Frame {
     public static final int GAME_WIDTH = 800;
     public static final int GAME_HEIGHT = 600;
 
     Tank myTank = new Tank(50, 50, this);
-    Missile m = null;
+//    Missile m = null;
+    java.util.List<Missile> missileList = new ArrayList<Missile>();
 
     Image offScreenImage = null;
 
     public void paint(Graphics g) {
-        if (m != null) m.draw(g);
+//        if (m != null)
+        for (int i=0;i<missileList.size();i++){
+            Missile missile = missileList.get(i);
+            missile.draw(g);
+        }
         myTank.draw(g);
     }
 

@@ -16,8 +16,11 @@ public class Tank {
 
     private int x, y;
 
-    private boolean bL=false, bU=false, bR=false, bD = false;
-    enum Direction {L, LU, U, RU, R, RD, D, LD, STOP};
+    private boolean bL = false, bU = false, bR = false, bD = false;
+
+    enum Direction {L, LU, U, RU, R, RD, D, LD, STOP}
+
+    ;
 
     private Direction dir = Direction.STOP;
     private Direction ptDir = Direction.D;
@@ -38,30 +41,30 @@ public class Tank {
         g.fillOval(x, y, WIDTH, HEIGHT);
         g.setColor(c);
 
-        switch(ptDir) {
+        switch (ptDir) {
             case L:
-                g.drawLine(x + Tank.WIDTH/2, y + Tank.HEIGHT/2, x, y + Tank.HEIGHT/2);
+                g.drawLine(x + Tank.WIDTH / 2, y + Tank.HEIGHT / 2, x, y + Tank.HEIGHT / 2);
                 break;
             case LU:
-                g.drawLine(x + Tank.WIDTH/2, y + Tank.HEIGHT/2, x, y);
+                g.drawLine(x + Tank.WIDTH / 2, y + Tank.HEIGHT / 2, x, y);
                 break;
             case U:
-                g.drawLine(x + Tank.WIDTH/2, y + Tank.HEIGHT/2, x + Tank.WIDTH/2, y);
+                g.drawLine(x + Tank.WIDTH / 2, y + Tank.HEIGHT / 2, x + Tank.WIDTH / 2, y);
                 break;
             case RU:
-                g.drawLine(x + Tank.WIDTH/2, y + Tank.HEIGHT/2, x + Tank.WIDTH, y);
+                g.drawLine(x + Tank.WIDTH / 2, y + Tank.HEIGHT / 2, x + Tank.WIDTH, y);
                 break;
             case R:
-                g.drawLine(x + Tank.WIDTH/2, y + Tank.HEIGHT/2, x + Tank.WIDTH, y + Tank.HEIGHT/2);
+                g.drawLine(x + Tank.WIDTH / 2, y + Tank.HEIGHT / 2, x + Tank.WIDTH, y + Tank.HEIGHT / 2);
                 break;
             case RD:
-                g.drawLine(x + Tank.WIDTH/2, y + Tank.HEIGHT/2, x + Tank.WIDTH, y + Tank.HEIGHT);
+                g.drawLine(x + Tank.WIDTH / 2, y + Tank.HEIGHT / 2, x + Tank.WIDTH, y + Tank.HEIGHT);
                 break;
             case D:
-                g.drawLine(x + Tank.WIDTH/2, y + Tank.HEIGHT/2, x + Tank.WIDTH/2, y + Tank.HEIGHT);
+                g.drawLine(x + Tank.WIDTH / 2, y + Tank.HEIGHT / 2, x + Tank.WIDTH / 2, y + Tank.HEIGHT);
                 break;
             case LD:
-                g.drawLine(x + Tank.WIDTH/2, y + Tank.HEIGHT/2, x, y + Tank.HEIGHT);
+                g.drawLine(x + Tank.WIDTH / 2, y + Tank.HEIGHT / 2, x, y + Tank.HEIGHT);
                 break;
         }
 
@@ -69,7 +72,7 @@ public class Tank {
     }
 
     void move() {
-        switch(dir) {
+        switch (dir) {
             case L:
                 x -= XSPEED;
                 break;
@@ -102,27 +105,24 @@ public class Tank {
                 break;
         }
 
-        if(this.dir != Direction.STOP) {
+        if (this.dir != Direction.STOP) {
             this.ptDir = this.dir;
         }
     }
 
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
-        switch(key) {
-            case KeyEvent.VK_CONTROL:
-                tc.m = fire();
-                break;
-            case KeyEvent.VK_LEFT :
+        switch (key) {
+            case KeyEvent.VK_LEFT:
                 bL = true;
                 break;
-            case KeyEvent.VK_UP :
+            case KeyEvent.VK_UP:
                 bU = true;
                 break;
-            case KeyEvent.VK_RIGHT :
+            case KeyEvent.VK_RIGHT:
                 bR = true;
                 break;
-            case KeyEvent.VK_DOWN :
+            case KeyEvent.VK_DOWN:
                 bD = true;
                 break;
         }
@@ -130,30 +130,34 @@ public class Tank {
     }
 
     void locateDirection() {
-        if(bL && !bU && !bR && !bD) dir = Direction.L;
-        else if(bL && bU && !bR && !bD) dir = Direction.LU;
-        else if(!bL && bU && !bR && !bD) dir = Direction.U;
-        else if(!bL && bU && bR && !bD) dir = Direction.RU;
-        else if(!bL && !bU && bR && !bD) dir = Direction.R;
-        else if(!bL && !bU && bR && bD) dir = Direction.RD;
-        else if(!bL && !bU && !bR && bD) dir = Direction.D;
-        else if(bL && !bU && !bR && bD) dir = Direction.LD;
-        else if(!bL && !bU && !bR && !bD) dir = Direction.STOP;
+        if (bL && !bU && !bR && !bD) dir = Direction.L;
+        else if (bL && bU && !bR && !bD) dir = Direction.LU;
+        else if (!bL && bU && !bR && !bD) dir = Direction.U;
+        else if (!bL && bU && bR && !bD) dir = Direction.RU;
+        else if (!bL && !bU && bR && !bD) dir = Direction.R;
+        else if (!bL && !bU && bR && bD) dir = Direction.RD;
+        else if (!bL && !bU && !bR && bD) dir = Direction.D;
+        else if (bL && !bU && !bR && bD) dir = Direction.LD;
+        else if (!bL && !bU && !bR && !bD) dir = Direction.STOP;
     }
 
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
-        switch(key) {
-            case KeyEvent.VK_LEFT :
+        switch (key) {
+            case KeyEvent.VK_CONTROL:
+//                tc.m = fire();
+                fire();
+                break;
+            case KeyEvent.VK_LEFT:
                 bL = false;
                 break;
-            case KeyEvent.VK_UP :
+            case KeyEvent.VK_UP:
                 bU = false;
                 break;
-            case KeyEvent.VK_RIGHT :
+            case KeyEvent.VK_RIGHT:
                 bR = false;
                 break;
-            case KeyEvent.VK_DOWN :
+            case KeyEvent.VK_DOWN:
                 bD = false;
                 break;
         }
@@ -161,9 +165,10 @@ public class Tank {
     }
 
     public Missile fire() {
-        int x = this.x + Tank.WIDTH/2 - Missile.WIDTH/2;
-        int y = this.y + Tank.HEIGHT/2 - Missile.HEIGHT/2;
+        int x = this.x + Tank.WIDTH / 2 - Missile.WIDTH / 2;
+        int y = this.y + Tank.HEIGHT / 2 - Missile.HEIGHT / 2;
         Missile m = new Missile(x, y, ptDir);
+        tc.missileList.add(m);
         return m;
     }
 }
