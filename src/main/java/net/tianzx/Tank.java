@@ -11,13 +11,15 @@ public class Tank {
     public static final int XSPEED = 5;
     public static final int YSPEED = 5;
     public static final int WIDTH = 30;
-    public static final int HEIGHT= 30;
+    public static final int HEIGHT = 30;
 
     TankClient tankClient;
 
     private int x, y;
 
     private boolean bL = false, bU = false, bR = false, bD = false;
+
+    private Direction ptDir = Direction.D;
 
     public Tank(int x, int y, TankClient tc) {
         this(x, y);
@@ -31,18 +33,52 @@ public class Tank {
 
     public enum Direction {
         L, LU, U, RU, R, RD, D, LD, STOP
-    }
-
-    ;
+    };
     public Direction direction = Direction.STOP;
 
     public void draw(Graphics g) {
         Color c = g.getColor();
-        g.setColor(Color.BLACK);
+        g.setColor(Color.RED);
         g.fillOval(x, y, WIDTH, HEIGHT);
         g.setColor(c);
         System.err.println("painting..............");
+        ptMove(g);
         move();
+    }
+
+    private void ptMove(Graphics g) {
+        Color c = g.getColor();
+        g.setColor(Color.RED);
+        g.fillOval(x, y, WIDTH, HEIGHT);
+        g.setColor(c);
+        switch (ptDir) {
+            case L:
+                g.drawLine (x+Tank.WIDTH/2,y+Tank.HEIGHT/2,x,y+Tank.HEIGHT/2);
+                break;
+            case LU:
+                g.drawLine (x+Tank.WIDTH/2,y+Tank.HEIGHT/2,x,y);
+                break;
+            case U:
+                g.drawLine (x+Tank.WIDTH/2,y+Tank.HEIGHT/2,x+ Tank.WIDTH/2,y);
+                break;
+            case RU:
+                g.drawLine (x+Tank.WIDTH/2,y+Tank.HEIGHT/2,x+Tank.WIDTH,y);
+                break;
+            case R:
+                g.drawLine (x+Tank.WIDTH/2,y+Tank.HEIGHT/2,x+Tank.WIDTH,y+Tank.HEIGHT/2);
+                break;
+            case RD:
+                g.drawLine (x+Tank.WIDTH/2,y+Tank.HEIGHT/2,x+Tank.WIDTH,y+Tank.HEIGHT);
+                break;
+            case D:
+                g.drawLine (x+Tank.WIDTH/2,y+Tank.HEIGHT/2,x+Tank.WIDTH/2,y+Tank.HEIGHT);
+                break;
+            case LD:
+                g.drawLine (x+Tank.WIDTH/2,y+Tank.HEIGHT/2,x,y+Tank.HEIGHT);
+                break;
+            case STOP:
+                break;
+        }
     }
 
     private void move() {
@@ -135,8 +171,8 @@ public class Tank {
     }
 
     public Missile fire() {
-        int x = this.x + WIDTH/2 - Missile.WIDTH/2;
-        int y = this.y + HEIGHT/2 - Missile.HEIGHT/2;
+        int x = this.x + WIDTH / 2 - Missile.WIDTH / 2;
+        int y = this.y + HEIGHT / 2 - Missile.HEIGHT / 2;
 
         Missile missile = new Missile(x, y, direction);
         return missile;

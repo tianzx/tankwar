@@ -22,7 +22,7 @@ public class Missile {
 
     public void draw(Graphics graphics){
         Color color =  graphics.getColor();
-        graphics.setColor(color.RED);
+        graphics.setColor(color.BLACK);
         graphics.fillOval(x,y,WIDTH,HEIGHT);
         graphics.setColor(color);
 
