@@ -12,7 +12,11 @@ public class Missile {
     public static final int HEIGHT = 10;
 
     int x, y;
+
+
+
     Tank.Direction dir;
+    private boolean live = true;
 
     public Missile(int x, int y, Tank.Direction dir) {
         this.x = x;
@@ -62,7 +66,18 @@ public class Missile {
             case STOP:
                 break;
         }
+
+        if(x<0 || y<0 || x>TankClient.GAME_WIDTH ||y>TankClient.GAME_HEIGHT){
+            live = false;
+        }
     }
 
+    public boolean isbLive() {
+        return live;
+    }
+
+    public void setbLive(boolean live) {
+        this.live = live;
+    }
 
 }
