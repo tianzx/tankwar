@@ -1,36 +1,36 @@
 package net.tianzx;
 
+import net.tianzx.Tank;
+
 import java.awt.*;
 
-/**
- * Created by tianzx on 2016/6/4.
- */
 public class Missile {
-    public static final int XSPEED =10;
-    public static final int YSPEED =10;
-    public static final int WIDTH =10;
-    public static final int HEIGHT =10;
-    private int x ,y;
-    private Tank.Direction direction;
+    public static final int XSPEED = 10;
+    public static final int YSPEED = 10;
 
-    public Missile(int x, int y, Tank.Direction direction){
-        super();
+    public static final int WIDTH = 10;
+    public static final int HEIGHT = 10;
+
+    int x, y;
+    Tank.Direction dir;
+
+    public Missile(int x, int y, Tank.Direction dir) {
         this.x = x;
-        this.y=y;
-        this.direction = direction;
+        this.y = y;
+        this.dir = dir;
     }
 
-    public void draw(Graphics graphics){
-        Color color =  graphics.getColor();
-        graphics.setColor(color.BLACK);
-        graphics.fillOval(x,y,WIDTH,HEIGHT);
-        graphics.setColor(color);
+    public void draw(Graphics g) {
+        Color c = g.getColor();
+        g.setColor(Color.BLACK);
+        g.fillOval(x, y, WIDTH, HEIGHT);
+        g.setColor(c);
 
         move();
     }
 
     private void move() {
-        switch (direction) {
+        switch (dir) {
             case L:
                 x -= XSPEED;
                 break;
@@ -53,12 +53,16 @@ public class Missile {
                 y += YSPEED;
                 break;
             case D:
-                y += XSPEED;
+                y += YSPEED;
                 break;
             case LD:
                 x -= XSPEED;
                 y += YSPEED;
                 break;
+            case STOP:
+                break;
         }
     }
+
+
 }
