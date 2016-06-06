@@ -12,7 +12,7 @@ public class Missile {
     public static final int HEIGHT = 10;
 
     int x, y;
-
+    TankClient tankClient;
     Tank.Direction dir;
     private boolean live = true;
 
@@ -21,8 +21,17 @@ public class Missile {
         this.y = y;
         this.dir = dir;
     }
-
+    public Missile(int x, int y, Tank.Direction dir,TankClient tankClient) {
+        this.x = x;
+        this.y = y;
+        this.dir = dir;
+        this.tankClient = tankClient;
+    }
     public void draw(Graphics g) {
+        if (!live){
+            tankClient.missileList.remove(this);
+            return;
+        }
         Color c = g.getColor();
         g.setColor(Color.BLACK);
         g.fillOval(x, y, WIDTH, HEIGHT);
@@ -85,6 +94,7 @@ public class Missile {
     public boolean hitTank(Tank tank){
         if(this.getRect().intersects(tank.getRect())){
             tank.setLive(false);
+            this.setbLive(false);
             return true;
         }else {
             return false;
