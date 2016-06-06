@@ -28,6 +28,8 @@ public class Tank {
     private Direction dir = Direction.STOP;
     private Direction ptDir = Direction.D;
 
+    private  int step = random.nextInt(12)+3;
+
     private boolean good ;
 
     private boolean live = true;
@@ -142,9 +144,14 @@ public class Tank {
         if(y+Tank.HEIGHT >TankClient.GAME_HEIGHT) y = TankClient.GAME_HEIGHT -Tank.HEIGHT;
 
         if(!good){
+
             Direction[] directions = Direction.values();
-            int rn = random.nextInt(directions.length);
-            dir = directions[rn];
+            if(0==step){
+                step = random.nextInt(12)+3;
+                int rn = random.nextInt(step);
+                dir = directions[rn];
+            }
+            step--;
         }
     }
 
