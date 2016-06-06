@@ -13,8 +13,8 @@ public class TankClient extends Frame {
     public static final int GAME_HEIGHT = 600;
 
     Tank myTank = new Tank(50, 50, this,true);
-    Tank enemyTank = new Tank(100,100,this,false);
-
+//    Tank enemyTank = new Tank(100,100,this,false);
+    List<Tank> tanks = new ArrayList<Tank>();
 //    Explode explode = new Explode(70,70,this);
     List<Explode> explodes = new ArrayList<Explode>();
 //    Missile m = null;
@@ -29,7 +29,8 @@ public class TankClient extends Frame {
 
         for (int i=0;i<missileList.size();i++){
             Missile missile = missileList.get(i);
-            missile.hitTank(enemyTank);
+//            missile.hitTank(enemyTank);
+            missile.hitTanks(tanks);
             if(!missile.isbLive()){
                 missileList.remove(missile);
             }
@@ -39,9 +40,12 @@ public class TankClient extends Frame {
             Explode explode = explodes.get(i);
             explode.draw(g);
         }
-
+        for (int i=0;i<tanks.size();i++){
+            Tank tank = tanks.get(i);
+            tank.draw(g);
+        }
         myTank.draw(g);
-        enemyTank.draw(g);
+//        enemyTank.draw(g);
     }
 
     public void update(Graphics g) {
@@ -58,6 +62,9 @@ public class TankClient extends Frame {
     }
 
     public void lauchFrame() {
+        for (int i=0;i<10;i++){
+            tanks.add(new Tank(50+40*(i+1),50,false));
+        }
         //this.setLocation(400, 300);
         this.setSize(GAME_WIDTH, GAME_HEIGHT);
         this.setTitle("TankWar");

@@ -1,7 +1,5 @@
 package net.tianzx;
 
-import net.tianzx.Tank;
-
 import java.awt.*;
 
 public class Missile {
@@ -101,5 +99,14 @@ public class Missile {
         }else {
             return false;
         }
+    }
+
+    public boolean hitTanks(java.util.List<Tank> tanks){
+        for (int i=0;i<tanks.size();i++){
+            if(hitTank(tanks.get(i))){
+                return true;
+            }
+        }
+        return false;
     }
 }
