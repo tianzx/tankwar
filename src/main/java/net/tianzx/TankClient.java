@@ -12,7 +12,7 @@ public class TankClient extends Frame {
     public static final int GAME_WIDTH = 800;
     public static final int GAME_HEIGHT = 600;
 
-    Tank myTank = new Tank(50, 50, this,true);
+    Tank myTank = new Tank(50, 50, this, Tank.Direction.STOP,true);
 //    Tank enemyTank = new Tank(100,100,this,false);
     List<Tank> tanks = new ArrayList<Tank>();
 //    Explode explode = new Explode(70,70,this);
@@ -63,7 +63,7 @@ public class TankClient extends Frame {
 
     public void lauchFrame() {
         for (int i=0;i<10;i++){
-            tanks.add(new Tank(50+40*(i+1),50,false));
+            tanks.add(new Tank(50+40*(i+1),50,this, Tank.Direction.D,false));
         }
         //this.setLocation(400, 300);
         this.setSize(GAME_WIDTH, GAME_HEIGHT);

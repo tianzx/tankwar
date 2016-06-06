@@ -4,6 +4,7 @@ import net.tianzx.TankClient;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Random;
 
 public class Tank {
     public static final int XSPEED = 5;
@@ -15,6 +16,8 @@ public class Tank {
     TankClient tc;
 
     private int x, y;
+
+    private static Random random =  new Random();
 
     private boolean bL = false, bU = false, bR = false, bD = false;
 
@@ -46,6 +49,11 @@ public class Tank {
     public Tank(int x, int y, TankClient tc,boolean good) {
         this(x, y,good);
         this.tc = tc;
+    }
+    public Tank(int x, int y, TankClient tc,Direction direction,boolean good) {
+        this(x, y,good);
+        this.tc = tc;
+        this.dir = direction;
     }
 
     public void draw(Graphics g) {
@@ -132,6 +140,12 @@ public class Tank {
         if(y<30) y=30;
         if(x+Tank.WIDTH >TankClient.GAME_WIDTH) x = TankClient.GAME_WIDTH -Tank.WIDTH;
         if(y+Tank.HEIGHT >TankClient.GAME_HEIGHT) y = TankClient.GAME_HEIGHT -Tank.HEIGHT;
+
+        if(!good){
+            Direction[] directions = Direction.values();
+            int rn = random.nextInt(directions.length);
+            dir = directions[rn];
+        }
     }
 
     public void keyPressed(KeyEvent e) {
