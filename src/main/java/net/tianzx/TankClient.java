@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.*;
+import java.util.List;
 
 public class TankClient extends Frame {
     public static final int GAME_WIDTH = 800;
@@ -14,8 +15,8 @@ public class TankClient extends Frame {
     Tank myTank = new Tank(50, 50, this,true);
     Tank enemyTank = new Tank(100,100,this,false);
 
-    Explode explode = new Explode(70,70,this);
-
+//    Explode explode = new Explode(70,70,this);
+    List<Explode> explodes = new ArrayList<Explode>();
 //    Missile m = null;
     java.util.List<Missile> missileList = new ArrayList<Missile>();
 
@@ -24,6 +25,8 @@ public class TankClient extends Frame {
     public void paint(Graphics g) {
 //        if (m != null)
         g.drawString("missiles count :"+missileList.size(),10,50);
+        g.drawString("explodes count :"+missileList.size(),10,70);
+
         for (int i=0;i<missileList.size();i++){
             Missile missile = missileList.get(i);
             missile.hitTank(enemyTank);
@@ -32,7 +35,11 @@ public class TankClient extends Frame {
             }
             missile.draw(g);
         }
-        explode.draw(g);
+        for (int i=0;i<explodes.size();i++){
+            Explode explode = explodes.get(i);
+            explode.draw(g);
+        }
+
         myTank.draw(g);
         enemyTank.draw(g);
     }
