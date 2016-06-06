@@ -13,8 +13,6 @@ public class Missile {
 
     int x, y;
 
-
-
     Tank.Direction dir;
     private boolean live = true;
 
@@ -80,4 +78,16 @@ public class Missile {
         this.live = live;
     }
 
+    public Rectangle getRect(){
+        return new Rectangle(x,y,WIDTH,HEIGHT);
+    }
+
+    public boolean hitTank(Tank tank){
+        if(this.getRect().intersects(tank.getRect())){
+            tank.setLive(false);
+            return true;
+        }else {
+            return false;
+        }
+    }
 }

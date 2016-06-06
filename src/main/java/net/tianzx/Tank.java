@@ -27,7 +27,17 @@ public class Tank {
 
     private boolean good ;
 
-    public Tank(int x, int y,boolean good) {
+    private boolean live = true;
+
+    public boolean isLive() {
+        return live;
+    }
+
+    public void setLive(boolean live) {
+        this.live = live;
+    }
+
+    public Tank(int x, int y, boolean good) {
         this.x = x;
         this.y = y;
         this.good = good;
@@ -39,6 +49,7 @@ public class Tank {
     }
 
     public void draw(Graphics g) {
+        if(!live) return;
         Color c = g.getColor();
         if(good) g.setColor(Color.red);
         else g.setColor(Color.blue);
@@ -179,5 +190,9 @@ public class Tank {
         Missile m = new Missile(x, y, ptDir);
         tc.missileList.add(m);
         return m;
+    }
+
+    public Rectangle getRect(){
+        return new Rectangle(x,y,WIDTH,HEIGHT);
     }
 }
