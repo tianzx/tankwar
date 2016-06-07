@@ -22,6 +22,8 @@ public class TankClient extends Frame {
 
     Image offScreenImage = null;
 
+    Wall wall = new Wall(100,200,20,150,this);
+    Wall wall2 = new Wall(500,100,300,20,this);
 
     public void paint(Graphics g) {
 //        if (m != null)
@@ -33,6 +35,8 @@ public class TankClient extends Frame {
 //            missile.hitTank(enemyTank);
             missile.hitTanks(tanks);
             missile.hitTank(myTank);
+            missile.hitWall(wall);
+            missile.hitWall(wall2);
             if(!missile.isbLive()){
                 missileList.remove(missile);
             }
@@ -44,10 +48,14 @@ public class TankClient extends Frame {
         }
         for (int i=0;i<tanks.size();i++){
             Tank tank = tanks.get(i);
+            tank.colidesWithWall(wall);
+            tank.colidesWithWall(wall2);
             tank.draw(g);
         }
         myTank.draw(g);
 //        enemyTank.draw(g);
+        wall.draw(g);
+        wall2.draw(g);
     }
 
     public void update(Graphics g) {

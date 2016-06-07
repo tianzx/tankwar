@@ -34,6 +34,8 @@ public class Tank {
 
     private boolean live = true;
 
+    private int oldX,oldY;
+
     public boolean isLive() {
         return live;
     }
@@ -46,6 +48,8 @@ public class Tank {
         this.x = x;
         this.y = y;
         this.good = good;
+        this.oldX = x;
+        this.oldY = y;
     }
 
     public Tank(int x, int y, TankClient tc,boolean good) {
@@ -105,6 +109,8 @@ public class Tank {
     }
 
     void move() {
+        this.oldX = x;
+        this.oldY = y;
         switch (dir) {
             case L:
                 x -= XSPEED;
@@ -227,5 +233,20 @@ public class Tank {
 
     public Rectangle getRect(){
         return new Rectangle(x,y,WIDTH,HEIGHT);
+    }
+
+    public boolean colidesWithWall(Wall wall) {
+        if(this.live &&this.getRect().intersects(wall.getRect()) ){
+//            this.live = false;
+//            this.dir = Direction.STOP;
+            this.stay();
+            return true;
+        }
+        return  false;
+    }
+
+    private void stay(){
+        x = oldX;
+        y = oldY;
     }
 }
