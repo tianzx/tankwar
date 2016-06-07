@@ -22,6 +22,7 @@ public class TankClient extends Frame {
 
     Image offScreenImage = null;
 
+
     public void paint(Graphics g) {
 //        if (m != null)
         g.drawString("missiles count :"+missileList.size(),10,50);
@@ -31,6 +32,7 @@ public class TankClient extends Frame {
             Missile missile = missileList.get(i);
 //            missile.hitTank(enemyTank);
             missile.hitTanks(tanks);
+            missile.hitTank(myTank);
             if(!missile.isbLive()){
                 missileList.remove(missile);
             }

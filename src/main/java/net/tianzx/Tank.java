@@ -100,6 +100,10 @@ public class Tank {
         move();
     }
 
+    public boolean isGood() {
+        return good;
+    }
+
     void move() {
         switch (dir) {
             case L:
@@ -152,6 +156,9 @@ public class Tank {
                 dir = directions[rn];
             }
             step--;
+
+            if (random.nextInt(40)>38)
+                this.fire();
         }
     }
 
@@ -210,9 +217,10 @@ public class Tank {
     }
 
     public Missile fire() {
+        if (!live) return null;
         int x = this.x + Tank.WIDTH / 2 - Missile.WIDTH / 2;
         int y = this.y + Tank.HEIGHT / 2 - Missile.HEIGHT / 2;
-        Missile m = new Missile(x, y, ptDir,tc);
+        Missile m = new Missile(x, y,good, ptDir,tc);
         tc.missileList.add(m);
         return m;
     }
