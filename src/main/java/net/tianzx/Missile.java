@@ -110,6 +110,7 @@ public class Missile {
                 return true;
             }
         }
+
         return false;
     }
 }
