@@ -206,6 +206,9 @@ public class Tank {
 //                tc.m = fire();
                 fire();
                 break;
+            case KeyEvent.VK_A:
+                superFire();
+                break;
             case KeyEvent.VK_LEFT:
                 bL = false;
                 break;
@@ -258,6 +261,23 @@ public class Tank {
         }
         return false;
     }
+
+    public Missile fire(Direction dir){
+        if (!live) return null;
+        int x = this.x + Tank.WIDTH / 2 - Missile.WIDTH / 2;
+        int y = this.y + Tank.HEIGHT / 2 - Missile.HEIGHT / 2;
+        Missile m = new Missile(x, y,good, dir,tc);
+        tc.missileList.add(m);
+        return m;
+    }
+    private void superFire(){
+        Direction[] dirs = Direction.values();
+        for (int i=0;i<8;i++){
+//            tc.missileList.add(fire(dirs[i]));
+            fire(dirs[i]);
+        }
+    }
+
     private void stay(){
         x = oldX;
         y = oldY;
