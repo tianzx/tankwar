@@ -32,6 +32,14 @@ public class Tank {
 
     private boolean good ;
 
+    public int getLife() {
+        return life;
+    }
+
+    public void setLife(int life) {
+        this.life = life;
+    }
+
     private boolean live = true;
 
     private int oldX,oldY;
@@ -43,6 +51,8 @@ public class Tank {
     public void setLive(boolean live) {
         this.live = live;
     }
+
+    private int life = 100;
 
     public Tank(int x, int y, boolean good) {
         this.x = x;
