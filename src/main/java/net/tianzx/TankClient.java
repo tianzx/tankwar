@@ -22,6 +22,7 @@ public class TankClient extends Frame {
 
     Image offScreenImage = null;
 
+    Blood blood = new Blood();
     Wall wall = new Wall(100,200,20,150,this);
     Wall wall2 = new Wall(500,100,300,20,this);
 
@@ -58,6 +59,7 @@ public class TankClient extends Frame {
 //        enemyTank.draw(g);
         wall.draw(g);
         wall2.draw(g);
+        blood.draw(g);
     }
 
     public void update(Graphics g) {
