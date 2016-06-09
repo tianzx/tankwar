@@ -54,6 +54,8 @@ public class Tank {
 
     private int life = 100;
 
+    private BloodBar bb = new BloodBar();
+
     public Tank(int x, int y, boolean good) {
         this.x = x;
         this.y = y;
@@ -84,6 +86,8 @@ public class Tank {
         g.fillOval(x, y, WIDTH, HEIGHT);
         g.setColor(c);
 
+        if (good)
+        bb.draw(g);
         switch (ptDir) {
             case L:
                 g.drawLine(x + Tank.WIDTH / 2, y + Tank.HEIGHT / 2, x, y + Tank.HEIGHT / 2);
@@ -280,6 +284,7 @@ public class Tank {
         tc.missileList.add(m);
         return m;
     }
+
     private void superFire(){
         Direction[] dirs = Direction.values();
         for (int i=0;i<8;i++){
@@ -291,5 +296,16 @@ public class Tank {
     private void stay(){
         x = oldX;
         y = oldY;
+    }
+
+    private class BloodBar{
+        public void draw(Graphics graphics){
+            Color color = graphics.getColor();
+            graphics.setColor(color.RED);
+            graphics.drawRect(x,y-10,WIDTH,10);
+            int w = WIDTH*life/100;
+            graphics.fillRect(x,y-10,w,10);
+            graphics.setColor(color);
+        }
     }
 }
