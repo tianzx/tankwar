@@ -33,4 +33,9 @@ public class Blood {
         x = pos[step][0];
         y = pos[step][1];
     }
+
+    public Rectangle getRect() {
+
+         return new Rectangle(x, y, w , h);
+    }
 }

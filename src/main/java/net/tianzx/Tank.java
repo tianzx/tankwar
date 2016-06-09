@@ -308,4 +308,12 @@ public class Tank {
             graphics.setColor(color);
         }
     }
+
+    public boolean eat(Blood b){
+        if (this.live && this.getRect().intersects(b.getRect())) {
+            this.life = 100;
+            return true;
+        }
+        return false;
+    }
 }

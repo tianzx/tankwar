@@ -57,6 +57,7 @@ public class TankClient extends Frame {
         }
         myTank.draw(g);
 //        enemyTank.draw(g);
+        myTank.eat(blood);
         wall.draw(g);
         wall2.draw(g);
         blood.draw(g);
