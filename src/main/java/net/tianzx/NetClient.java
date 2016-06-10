@@ -5,9 +5,7 @@ import net.tianzx.test2.Test2;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.DatagramSocket;
-import java.net.Socket;
-import java.net.SocketException;
+import java.net.*;
 
 /**
  * Created by tianzx on 2016/6/10.
@@ -36,7 +34,7 @@ public class NetClient {
             DataInputStream dis = new DataInputStream(s.getInputStream());
             int id = dis.readInt();
             tc.myTank.id = id;
-            System.err.print("Connect to Server and server give me a ID:" +id);
+            System.err.println("Connect to Server and server give me a ID:" +id);
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
@@ -51,10 +49,27 @@ public class NetClient {
         TankNewMsg tnm = new TankNewMsg(tc.myTank);
         send(tnm);
 
-
+        new Thread(new UDPReceiveThread()).start();
     }
 
     public void send(TankNewMsg msg){
         msg.send("127.0.0.1",TankServer.UDP_PORT,ds);
+    }
+
+    private class UDPReceiveThread implements Runnable{
+        byte[] buf = new byte[1024];
+        public void run() {
+            while (true){
+                while (ds!=null) {
+                    DatagramPacket dp =  new DatagramPacket(buf,buf.length);
+                    try {
+                        ds.receive(dp);
+                        System.err.println("a packet receive from server!");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 }
