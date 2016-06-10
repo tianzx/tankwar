@@ -76,7 +76,7 @@ public class NetClient {
         private void parse(DatagramPacket dp) {
             ByteArrayInputStream bais = new ByteArrayInputStream(buf,0,dp.getLength());
             DataInputStream dis = new DataInputStream(bais);
-            TankNewMsg msg = new TankNewMsg();
+            TankNewMsg msg = new TankNewMsg(NetClient.this.tc);
             msg.parse(dis);
         }
     }

@@ -15,12 +15,13 @@ import java.net.SocketException;
 public class TankNewMsg {
 
     Tank tank;
-
+    TankClient tc;
     public TankNewMsg(Tank tank){
         this.tank = tank;
     }
 
-    public TankNewMsg(){
+    public TankNewMsg(TankClient tc){
+        this.tc = tc;
     }
     
     public void send(String ip,int udpPort,DatagramSocket ds) {
@@ -50,10 +51,28 @@ public class TankNewMsg {
     public void parse(DataInputStream dis) {
         try {
             int id = dis.readInt();
+            if(tc.myTank.id == id){
+                return;
+            }
             int x = dis.readInt();
             int y = dis.readInt();
             Direction dir = Direction.values()[dis.readInt()];
             boolean good = dis.readBoolean();
+            Tank tank = new Tank(x,y,tc,dir,good);
+            tank.id = id;
+            tc.tanks.add(tank);
+//            boolean exist =false;
+//            for (int i=0;i<tc.tanks.size();i++){
+//                Tank t = tc.tanks.get(i);
+//                if(t.id == id){
+//                    exist = true;
+//                    tank.x = x;
+//                    tank.y = y;
+//                    tank.dir = dir;
+//                    tank.good = good;
+//                    break;
+//                }
+//            }
             System.err.println("id:"+id +"-"+"x:"+x+"-y:"+y+"-dir:"+dir+"-good:"+good);
         } catch (IOException e) {
             e.printStackTrace();
