@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class Tank {
 
-    int id;
+    public int id;
     public static final int XSPEED = 5;
     public static final int YSPEED = 5;
 
@@ -17,18 +17,18 @@ public class Tank {
 
     TankClient tc;
 
-     int x, y;
+   public   int x, y;
 
     private static Random random =  new Random();
 
     private boolean bL = false, bU = false, bR = false, bD = false;
 
-     Direction dir = Direction.STOP;
+   public   Direction dir = Direction.STOP;
     private Direction ptDir = Direction.D;
 
     private  int step = random.nextInt(12)+3;
 
-     boolean good ;
+    public boolean good ;
 
     public int getLife() {
         return life;
@@ -249,7 +249,7 @@ public class Tank {
         int x = this.x + Tank.WIDTH / 2 - Missile.WIDTH / 2;
         int y = this.y + Tank.HEIGHT / 2 - Missile.HEIGHT / 2;
         Missile m = new Missile(x, y,good, ptDir,tc);
-        tc.missileList.add(m);
+        tc.missiles.add(m);
         return m;
     }
 
@@ -286,7 +286,7 @@ public class Tank {
         int x = this.x + Tank.WIDTH / 2 - Missile.WIDTH / 2;
         int y = this.y + Tank.HEIGHT / 2 - Missile.HEIGHT / 2;
         Missile m = new Missile(x, y,good, dir,tc);
-        tc.missileList.add(m);
+        tc.missiles.add(m);
         return m;
     }
 

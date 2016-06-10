@@ -13,67 +13,46 @@ public class TankClient extends Frame {
     public static final int GAME_HEIGHT = 600;
 
     Tank myTank = new Tank(50, 50, this, Direction.STOP,true);
-//    Tank enemyTank = new Tank(100,100,this,false);
-    List<Tank> tanks = new ArrayList<Tank>();
-//    Explode explode = new Explode(70,70,this);
+
+    List<Missile> missiles = new ArrayList<Missile>();
     List<Explode> explodes = new ArrayList<Explode>();
-//    Missile m = null;
-    java.util.List<Missile> missileList = new ArrayList<Missile>();
+    List<Tank> tanks = new ArrayList<Tank>();
 
     Image offScreenImage = null;
 
-    Blood blood = new Blood();
-    Wall wall = new Wall(100,200,20,150,this);
-    Wall wall2 = new Wall(500,100,300,20,this);
+    NetClient nc = new NetClient(this);
 
-    NetClient nc =new NetClient(this);
-
+    @Override
     public void paint(Graphics g) {
+        g.drawString("missiles count:" + missiles.size(), 10, 50);
+        g.drawString("explodes count:" + explodes.size(), 10, 70);
+        g.drawString("tanks    count:" + tanks.size(), 10, 90);
 
-//        if (m != null)
-        g.drawString("missiles count :"+missileList.size(),10,50);
-        g.drawString("explodes count :"+explodes.size(),10,70);
-        g.drawString("mytank life :"+myTank.getLife(),10,90);
-        if (tanks.size()<=0){
-            for (int i=0;i<5;i++){
-                tanks.add(new Tank(50+40*(i+1),50,this, Direction.D,false));
-            }
+        for(int i=0; i<missiles.size(); i++) {
+            Missile m = missiles.get(i);
+            m.hitTanks(tanks);
+            m.draw(g);
         }
-        for (int i=0;i<missileList.size();i++){
-            Missile missile = missileList.get(i);
-//            missile.hitTank(enemyTank);
-            missile.hitTanks(tanks);
-            missile.hitTank(myTank);
-            missile.hitWall(wall);
-            missile.hitWall(wall2);
-            if(!missile.isbLive()){
-                missileList.remove(missile);
-            }
-            missile.draw(g);
-        }
-        for (int i=0;i<explodes.size();i++){
-            Explode explode = explodes.get(i);
-            explode.draw(g);
-        }
-        for (int i=0;i<tanks.size();i++){
-            Tank tank = tanks.get(i);
-            tank.collidesWithWall(wall);
-            tank.collidesWithWall(wall2);
-            tank.collidesWithTanks(tanks);
-//            tank.draw(g);
 
+        for(int i=0; i<explodes.size(); i++) {
+            Explode e = explodes.get(i);
+            e.draw(g);
         }
+
+        for(int i=0; i<tanks.size(); i++) {
+            Tank t = tanks.get(i);
+            t.draw(g);
+        }
+
         myTank.draw(g);
-//        enemyTank.draw(g);
-//        myTank.eat(blood);
-//        wall.draw(g);
-//        wall2.draw(g);
-//        blood.draw(g);
+
+
     }
 
+    @Override
     public void update(Graphics g) {
-        if (offScreenImage == null) {
-            offScreenImage = this.createImage(GAME_WIDTH, GAME_HEIGHT);
+        if(offScreenImage == null) {
+            offScreenImage = this.createImage(800, 600);
         }
         Graphics gOffScreen = offScreenImage.getGraphics();
         Color c = gOffScreen.getColor();
@@ -84,38 +63,40 @@ public class TankClient extends Frame {
         g.drawImage(offScreenImage, 0, 0, null);
     }
 
-    public void lauchFrame() {
-        for (int i=0;i<10;i++){
-            tanks.add(new Tank(50+40*(i+1),50,this, Direction.D,false));
-        }
-        //this.setLocation(400, 300);
+    public void launchFrame() {
+
+        this.setLocation(400, 300);
         this.setSize(GAME_WIDTH, GAME_HEIGHT);
         this.setTitle("TankWar");
         this.addWindowListener(new WindowAdapter() {
+
+            @Override
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
             }
+
         });
         this.setResizable(false);
         this.setBackground(Color.GREEN);
 
         this.addKeyListener(new KeyMonitor());
 
-        setVisible(true);
+        this.setVisible(true);
 
         new Thread(new PaintThread()).start();
-        nc.connect("127.0.0.1",TankServer.TCP_PORT);
+
+        nc.connect("127.0.0.1", TankServer.TCP_PORT);
     }
 
     public static void main(String[] args) {
         TankClient tc = new TankClient();
-        tc.lauchFrame();
+        tc.launchFrame();
     }
 
-    private class PaintThread implements Runnable {
+    class PaintThread implements Runnable {
 
         public void run() {
-            while (true) {
+            while(true) {
                 repaint();
                 try {
                     Thread.sleep(50);
@@ -124,14 +105,17 @@ public class TankClient extends Frame {
                 }
             }
         }
+
     }
 
-    private class KeyMonitor extends KeyAdapter {
+    class KeyMonitor extends KeyAdapter {
 
+        @Override
         public void keyReleased(KeyEvent e) {
             myTank.keyReleased(e);
         }
 
+        @Override
         public void keyPressed(KeyEvent e) {
             myTank.keyPressed(e);
         }

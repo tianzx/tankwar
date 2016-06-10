@@ -32,7 +32,7 @@ public class Missile {
 
     public void draw(Graphics g) {
         if (!live) {
-            tankClient.missileList.remove(this);
+            tankClient.missiles.remove(this);
             return;
         }
         Color c = g.getColor();

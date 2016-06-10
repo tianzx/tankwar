@@ -12,13 +12,14 @@ import java.net.*;
  * Created by tianzx on 2016/6/10.
  */
 public class NetClient {
-
+    TankClient tc;
     private static int UDP_PORT_START = 2224;
     private int udpPort;
-    TankClient tc;
+
     DatagramSocket ds = null;
-    public NetClient(TankClient tc){
-        udpPort = UDP_PORT_START++;
+
+    public NetClient(TankClient tc) {
+        udpPort = UDP_PORT_START ++;
         this.tc = tc;
         try {
             ds = new DatagramSocket(udpPort);
@@ -26,59 +27,81 @@ public class NetClient {
             e.printStackTrace();
         }
     }
-    public void connect(String ip,int port){
-        Socket s =null;
+
+    public void connect(String IP, int port) {
+        Socket s = null;
         try {
-             s = new Socket(ip,port);
+            s = new Socket(IP, port);
             DataOutputStream dos = new DataOutputStream(s.getOutputStream());
             dos.writeInt(udpPort);
             DataInputStream dis = new DataInputStream(s.getInputStream());
             int id = dis.readInt();
             tc.myTank.id = id;
-            System.err.println("Connect to Server and server give me a ID:" +id);
+            System.out.println("Connected to server! and server give me a ID:" + id);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
-            if (null!=s){
+        } finally {
+            if(s != null) {
                 try {
                     s.close();
+                    s = null;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }
-        TankNewMsg tnm = new TankNewMsg(tc.myTank);
-        send(tnm);
 
-        new Thread(new UDPReceiveThread()).start();
+        TankNewMsg msg = new TankNewMsg(tc.myTank);
+        send((Msg) msg);
+
+        new Thread(new UDPRecvThread()).start();
     }
 
-    public void send(TankNewMsg msg){
-        msg.send("127.0.0.1",TankServer.UDP_PORT,ds);
+    public void send(Msg msg) {
+        msg.send(ds, "127.0.0.1", TankServer.UDP_PORT);
     }
 
-    private class UDPReceiveThread implements Runnable{
+    private class UDPRecvThread implements Runnable {
+
         byte[] buf = new byte[1024];
+
         public void run() {
-            while (true){
-                while (ds!=null) {
-                    DatagramPacket dp =  new DatagramPacket(buf,buf.length);
-                    try {
-                        ds.receive(dp);
-                        parse(dp);
-                        System.err.println("a packet receive from server!");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+
+            while(ds != null){
+                DatagramPacket dp = new DatagramPacket(buf, buf.length);
+                try {
+                    ds.receive(dp);
+                    parse(dp);
+                    System.out.println("a packet received from server!");
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }
+
         private void parse(DatagramPacket dp) {
-            ByteArrayInputStream bais = new ByteArrayInputStream(buf,0,dp.getLength());
+            ByteArrayInputStream bais = new ByteArrayInputStream(buf, 0, dp.getLength());
             DataInputStream dis = new DataInputStream(bais);
-            TankNewMsg msg = new TankNewMsg(NetClient.this.tc);
-            msg.parse(dis);
+            int msgType = 0;
+            try {
+                msgType = dis.readInt();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Msg msg = null;
+            switch (msgType) {
+                case Msg.TANK_NEW_MSG:
+                    msg = (Msg) new TankNewMsg(NetClient.this.tc);
+                    msg.parse(dis);
+                    break;
+                case Msg.TANK_MOVE_MSG:
+//                    msg =  (Msg) new TankMoveMsg(NetClient.this.tc);
+                    msg.parse(dis);
+                    break;
+            }
+
         }
     }
-
 }
