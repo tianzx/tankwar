@@ -1,6 +1,7 @@
 package net.tianzx;
 
 import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -19,6 +20,9 @@ public class TankNewMsg {
         this.tank = tank;
     }
 
+    public TankNewMsg(){
+    }
+    
     public void send(String ip,int udpPort,DatagramSocket ds) {
         ByteArrayOutputStream baos =  new ByteArrayOutputStream();
         DataOutputStream dos = new DataOutputStream(baos);
@@ -41,5 +45,18 @@ public class TankNewMsg {
             e.printStackTrace();
         }
 
+    }
+
+    public void parse(DataInputStream dis) {
+        try {
+            int id = dis.readInt();
+            int x = dis.readInt();
+            int y = dis.readInt();
+            Direction dir = Direction.values()[dis.readInt()];
+            boolean good = dis.readBoolean();
+            System.err.println("id:"+id +"-"+"x:"+x+"-y:"+y+"-dir:"+dir+"-good:"+good);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

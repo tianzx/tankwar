@@ -2,6 +2,7 @@ package net.tianzx;
 
 import net.tianzx.test2.Test2;
 
+import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -64,6 +65,7 @@ public class NetClient {
                     DatagramPacket dp =  new DatagramPacket(buf,buf.length);
                     try {
                         ds.receive(dp);
+                        parse(dp);
                         System.err.println("a packet receive from server!");
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -71,5 +73,12 @@ public class NetClient {
                 }
             }
         }
+        private void parse(DatagramPacket dp) {
+            ByteArrayInputStream bais = new ByteArrayInputStream(buf,0,dp.getLength());
+            DataInputStream dis = new DataInputStream(bais);
+            TankNewMsg msg = new TankNewMsg();
+            msg.parse(dis);
+        }
     }
+
 }
