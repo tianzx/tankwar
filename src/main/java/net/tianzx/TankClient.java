@@ -26,6 +26,8 @@ public class TankClient extends Frame {
     Wall wall = new Wall(100,200,20,150,this);
     Wall wall2 = new Wall(500,100,300,20,this);
 
+    NetClient nc =new NetClient();
+
     public void paint(Graphics g) {
 
 //        if (m != null)
@@ -102,6 +104,7 @@ public class TankClient extends Frame {
         setVisible(true);
 
         new Thread(new PaintThread()).start();
+        nc.connect("127.0.0.1",TankServer.TCP_PORT);
     }
 
     public static void main(String[] args) {
