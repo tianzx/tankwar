@@ -17,18 +17,18 @@ public class Tank {
 
     TankClient tc;
 
-    private int x, y;
+     int x, y;
 
     private static Random random =  new Random();
 
     private boolean bL = false, bU = false, bR = false, bD = false;
 
-    private Direction dir = Direction.STOP;
+     Direction dir = Direction.STOP;
     private Direction ptDir = Direction.D;
 
     private  int step = random.nextInt(12)+3;
 
-    private boolean good ;
+     boolean good ;
 
     public int getLife() {
         return life;
