@@ -17,19 +17,39 @@ public class TankServer {
     List<Client> clients = new ArrayList<Client>();
 
     public void start(){
+        ServerSocket ss =null;
         try {
-            ServerSocket ss = new ServerSocket(TCP_PORT);
-            while (true) {
-                Socket s = ss.accept();
-                DataInputStream dis = new DataInputStream(s.getInputStream());
-                String ip = s.getInetAddress().getHostAddress();
-                int udpPot = dis.readInt();
-                Client c = new Client(ip,udpPot);
-                clients.add(c);
-                s.close();
-            }
+             ss = new ServerSocket(TCP_PORT);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        while (true) {
+            Socket s = null;
+            try {
+                s = ss.accept();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            DataInputStream dis = null;
+            try {
+                dis = new DataInputStream(s.getInputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String ip = s.getInetAddress().getHostAddress();
+            int udpPot = 0;
+            try {
+                udpPot = dis.readInt();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Client c = new Client(ip,udpPot);
+            clients.add(c);
+            try {
+                s.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
