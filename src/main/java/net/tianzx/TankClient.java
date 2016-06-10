@@ -27,10 +27,16 @@ public class TankClient extends Frame {
     Wall wall2 = new Wall(500,100,300,20,this);
 
     public void paint(Graphics g) {
+
 //        if (m != null)
         g.drawString("missiles count :"+missileList.size(),10,50);
         g.drawString("explodes count :"+explodes.size(),10,70);
         g.drawString("mytank life :"+myTank.getLife(),10,90);
+        if (tanks.size()<=0){
+            for (int i=0;i<5;i++){
+                tanks.add(new Tank(50+40*(i+1),50,this, Tank.Direction.D,false));
+            }
+        }
         for (int i=0;i<missileList.size();i++){
             Missile missile = missileList.get(i);
 //            missile.hitTank(enemyTank);
