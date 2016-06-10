@@ -26,7 +26,7 @@ public class TankClient extends Frame {
     Wall wall = new Wall(100,200,20,150,this);
     Wall wall2 = new Wall(500,100,300,20,this);
 
-    NetClient nc =new NetClient();
+    NetClient nc =new NetClient(this);
 
     public void paint(Graphics g) {
 
