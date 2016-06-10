@@ -13,9 +13,9 @@ import java.net.*;
  */
 public class NetClient {
 
-    private static int UDP_PORT_START = 2223;
+    private static int UDP_PORT_START = 2224;
     private int udpPort;
-    TankClient tc = null;
+    TankClient tc;
     DatagramSocket ds = null;
     public NetClient(TankClient tc){
         udpPort = UDP_PORT_START++;
